@@ -1,3 +1,6 @@
+# 노션에 정리한 내용
+https://tranquil-walker-a73.notion.site/MongoDB-bb908569ad334b0080afecadc151deb7?pvs=4
+
 # MongoDB with FastAPI
 
 This is a small sample project demonstrating how to build an API with [MongoDB](https://developer.mongodb.com/) and [FastAPI](https://fastapi.tiangolo.com/).

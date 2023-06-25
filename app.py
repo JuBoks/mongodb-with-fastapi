@@ -103,13 +103,9 @@ class UpdateStudentModel(BaseModel):
 
 @app.post("/", response_description="Add new student", response_model=StudentModel)
 async def create_student(student: StudentModel = Body(...)):
-    print('①', student)
     student = jsonable_encoder(student) # 직렬화
-    print('②', student)
     new_student = await db["students"].insert_one(student)
-    print('③', new_student)
     created_student = await db["students"].find_one({"_id": new_student.inserted_id})
-    print('④', created_student)
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=created_student)
 
 
@@ -158,30 +154,3 @@ async def delete_student(id: str):
         return Response(status_code=status.HTTP_204_NO_CONTENT)
 
     raise HTTPException(status_code=404, detail=f"Student {id} not found")
-
-class TestModel(BaseModel):
-    _id: ObjectId
-    name: str = Field(...)
-
-    class Config:
-        json_encoders = {ObjectId: str} 
-
-        schema_extra = {
-            "example": {
-                "name": "Jane Doe"
-            }
-        }
-
-@app.post("/test", response_description="Add new student", response_model=TestModel)
-async def create_test(test: TestModel = Body(...)):
-    print('①', test)
-    test = jsonable_encoder(test) # 직렬화
-    print('②', test)
-    new_test = await db["test"].insert_one(test)
-    print('③', new_test)
-    created_test = await db["test"].find_one({"_id": new_test.inserted_id})
-    print('④', created_test)
-    created_test = jsonable_encoder(created_test) # 직렬화
-    print('⑤', created_test)
-    return JSONResponse(status_code=status.HTTP_201_CREATED, content=created_test)
-
